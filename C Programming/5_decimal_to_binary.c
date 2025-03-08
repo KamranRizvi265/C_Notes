@@ -1,6 +1,7 @@
 #include<stdio.h>
 
-int main() {
+int main() 
+{
     int n, i;
     printf("Enter a decimal number: ");
     scanf("%d", &n);
