@@ -19,6 +19,12 @@ void createArray(struct myArray *a, int tsize, int usize)
     a->total_size = tsize;
     a->used_size = usize;
     a->ptr = (int *) malloc(tsize * sizeof(int));
+
+    if (a->ptr == NULL) 
+    {
+        printf("Memory allocation failed!\n");
+        exit(1); // Exit if memory allocation fails
+    }
 }
 
 void setval(struct myArray *a)
@@ -45,11 +51,13 @@ void showval(struct myArray *a)
 
 void insert(struct myArray *a, int index, int value)
 {
-    if(a->used_size >= a->total_size) {
+    if(a->used_size >= a->total_size)    // Check if the array is full
+    {   
         printf("Array is full. Cannot insert.\n");
         return;
     }
-    if(index < 0 || index > a->used_size) {
+    if(index < 0 || index > a->used_size)  // Check for valid index
+    {
         printf("Invalid index.\n");
         return;
     }
@@ -61,7 +69,7 @@ void insert(struct myArray *a, int index, int value)
         (a->ptr)[i] = (a->ptr)[i-1];
     }
     (a->ptr)[index] = value;
-    a->used_size++;
+    a->used_size++;   // Increment the used size after insertion
 
     printf("Value %d inserted at index %d\n", value, index);
 }
@@ -81,6 +89,8 @@ int main()
 
     insert(&marks, index, value);
     showval(&marks);
+
+    free(marks.ptr); // Free the allocated memory
 
     return 0;
 }
