@@ -10,8 +10,6 @@ struct myArray
 
 void createArray(struct myArray *a, int tsize, int usize)
 {
-    printf("Creating Array\n");
-
     // (*a).total_size = tsize;
     // (*a).used_size = usize;
     // (*a).ptr = (int *) malloc(tsize * sizeof(int));
@@ -19,12 +17,6 @@ void createArray(struct myArray *a, int tsize, int usize)
     a->total_size = tsize;
     a->used_size = usize;
     a->ptr = (int *) malloc(tsize * sizeof(int));
-
-    if (a->ptr == NULL) 
-    {
-        printf("Memory allocation failed!\n");
-        exit(1); // Exit if memory allocation fails
-    }
 }
 
 void setval(struct myArray *a)
@@ -46,51 +38,52 @@ void showval(struct myArray *a)
     {
         printf("%d ", (a->ptr)[i]);
     }
-    printf("\n");
 }
 
-void insert(struct myArray *a, int index, int value)
+void index_delete(struct myArray *a, int index)
 {
-    if(a->used_size >= a->total_size)    // Check if the array is full
-    {   
-        printf("Array is full. Cannot insert.\n");
-        return;
-    }
-    if(index < 0 || index > a->used_size)  // Check for valid index
+    if(index < 0 || index >= a->used_size) // Check for valid index
     {
-        printf("Invalid index.\n");
+        printf("Invalid index. Cannot delete.\n");
         return;
     }
 
-    printf("\nInserting Value\n");
-
-    for(int i = (a->used_size); i > index; i--)
+    // Shift elements to the left from the index
+    for(int i = index; i < (a->used_size)-1; i++)
     {
-        (a->ptr)[i] = (a->ptr)[i-1];
+        (a->ptr)[i] = (a->ptr)[i+1];
     }
-    (a->ptr)[index] = value;
-    a->used_size++;   // Increment the used size after insertion
-
-    printf("Value %d inserted at index %d\n", value, index);
+    a->used_size--; // Decrease the used size after deletion
+    printf("Element at index %d deleted successfully.\n", index);
 }
- 
+
 int main()
 {
     struct myArray marks;
-    createArray(&marks, 10, 6);
+
+    int t_size, u_size;
+    printf("Enter total size of the array: ");
+    scanf("%d", &t_size);
+    printf("Enter used size of the array: ");
+    scanf("%d", &u_size);
+
+    if(u_size > t_size)
+    {
+        printf("Used size cannot be greater than total size.\n");
+        return 1; // Exit if invalid sizes are provided
+    }
+
+    createArray(&marks, t_size, u_size);
     setval(&marks);
     showval(&marks);
 
-    int index, value;
-    printf("Enter index to insert at: ");
+    int index;
+    printf("\nEnter index to delete: ");
     scanf("%d", &index);
-    printf("Enter value to insert: ");
-    scanf("%d", &value);
-
-    insert(&marks, index, value);
+    index_delete(&marks, index);
     showval(&marks);
 
-    free(marks.ptr); // Free the allocated memory
+    free(marks.ptr); // Free allocated memory
 
     return 0;
 }
