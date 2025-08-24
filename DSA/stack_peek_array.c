@@ -59,7 +59,6 @@ void peek(Stack *ptr, int pos)
 {
     if(isEmpty(ptr))
     {
-        printf("Stack is empty...\n");
         return;
     }
 
@@ -96,6 +95,20 @@ int main()
         peek(s, j);
     }
 
+    pop(s);
+    pop(s);
+
+    for(int j = 1; j <= s->top+1; j++)
+    {
+        peek(s, j);
+    }
+
+    pop(s);
+    pop(s);
+    pop(s);
+    pop(s);
+    pop(s);
+    pop(s);
     pop(s);
     pop(s);
 
