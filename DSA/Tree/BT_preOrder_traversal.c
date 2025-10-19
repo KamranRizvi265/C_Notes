@@ -20,6 +20,16 @@ Node * create_node(int val)
     return n;
 }
 
+void preOrder( Node *root)
+{
+    if(root != NULL)
+    {
+        printf("%d ",root->data);
+        preOrder(root->left);
+        preOrder(root->right);
+    }
+}
+
 int main()
 {
     // Tree
@@ -57,6 +67,8 @@ int main()
 
     p6->left = NULL;
     p6->right = NULL;
+
+    preOrder(p);
 
     return 0;
 }
